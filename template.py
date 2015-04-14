@@ -26,6 +26,16 @@ def parse_instance(line):
         raise Exception(error)
     return instance
 
+def parse_file(file_name):
+    with open(file_name, mode = 'r', encoding='utf-8') as file_:
+        number_of_instances = int(file_.readline())
+        lines = [line for line in file_]
+
+        # Allows for cases where one instances can span multiple lines
+        instances = [parse_instance(lines[i])
+                     for i in range(number_of_instances)]
+    return (number_of_instances, instances)
+
 def clean_solution(i, solution):
     solution = 'Case #{}: {}'.format(i, solution)
     print(solution)
@@ -40,16 +50,6 @@ def get_output_from_solutions(file_name, solutions):
             ]
     with open(file_name, 'w', encoding='utf-8') as file_:
         file_.writelines(lines)
-
-def parse_file(file_name):
-    with open(file_name, mode = 'r', encoding='utf-8') as file_:
-        number_of_instances = int(file_.readline())
-        lines = [line for line in file_]
-
-        # Allows for cases where one instances can span multiple lines
-        instances = [parse_instance(lines[i])
-                     for i in range(number_of_instances)]
-    return (number_of_instances, instances)
 
 def print_status(i, total):
     print_string = '\rProcessing {}/{} instances '.format(i+1, total)
